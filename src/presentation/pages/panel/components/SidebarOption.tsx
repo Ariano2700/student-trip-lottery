@@ -58,8 +58,8 @@ const SidebarOption = ({ path, label, Icon, children }: SidebarOptionProps) => {
             [
               "btn btn-md btn-ghost w-full gap-2 justify-start",
               isActive
-                ? "!bg-primary text-white"
-                : "text-gray-700 hover:bg-gray-200 dark:text-gray-400 dark:hover:text-gray-700",
+                ? "!bg-primary text-secondary"
+                : "text-gray-500 hover:bg-gray-200 dark:text-gray-200 dark:hover:text-gray-700",
             ].join(" ")
           }
           onClick={closeSidebar}

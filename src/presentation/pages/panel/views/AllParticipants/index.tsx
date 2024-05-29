@@ -20,21 +20,30 @@ const AllParicipants = () => {
     };
     fetchData();
   }, []);
+
+  const sortedLotteryNumbers = [...lotteryNumbers].sort((a, b) => {
+    const dataA = a.lottery_number;
+    const dataB = b.lottery_number;
+    return dataA - dataB;
+  });
+
   return (
     <div className="flex flex-col gap-2">
-      <div className="text-center max-sm:text-2xl text-4xl text-white font-bold">
+      <div className="text-center max-sm:text-2xl text-4xl text-secondary font-bold">
         <h1>Nombres y numeros de los participantes</h1>
       </div>
       <div className="p-8">
-        {lotteryNumbers &&
-          lotteryNumbers.map((lotteryNumber) => (
-            <div className="flex items-center gap-5">
+        {sortedLotteryNumbers &&
+          sortedLotteryNumbers.map((lotteryNumber, index) => (
+            <div key={index} className="flex items-center gap-5">
               <div className="p-2 flex items-center gap-5">
-                <span className="text-xl bg-yellow-700 p-3 rounded-md">{lotteryNumber.lottery_number}</span>
+                <span className="text-xl bg-secondary text-primary p-3 rounded-md">
+                  {lotteryNumber.lottery_number}
+                </span>
                 <RiArrowDownSLine className="rotate-[270deg] text-xl" />
               </div>
               <div className="p-2">
-                <span className="text-xl">
+                <span className="text-xl text-secondary">
                   {lotteryNumber.participant_name}
                 </span>
               </div>

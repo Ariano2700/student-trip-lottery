@@ -46,8 +46,10 @@ function Home() {
     );
   };
   const handleOnClick = (number: number) => {
-    setSelectedNumber(number);
-    setOpenDialog(true);
+    if (!isNumberInLotteryNumbers(number)) {
+      setSelectedNumber(number);
+      setOpenDialog(true);
+    }
   };
   const handleConfirm = async () => {
     if (selectedNumber !== null && name) {
@@ -73,18 +75,20 @@ function Home() {
   return (
     <div className="flex flex-col items-center justify-center p-5 dialog">
       <div className="p-5 mb-5">
-        <h1 className="max-sm:text-2xl text-4xl text-white font-bold">Rifas 401 - 450</h1>
+        <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
+          Rifas 401 - 450
+        </h1>
       </div>
-      <div className="w-[25%] flex items-center justify-center">
+      <div className="w-[40%] flex items-center justify-center">
         <table className="table-auto w-full text-center">
           <tbody>
             {numbers.map((number, index) =>
-              index % 3 === 0 ? (
-                <tr key={index}>
+              index % 4 === 0 ? (
+                <tr className="h-[50px]" key={index}>
                   <td
-                    className={`border border-white p-5 ${
+                    className={`border border-secondary p-5 ${
                       isNumberInLotteryNumbers(number)
-                        ? "bg-yellow-500"
+                        ? "bg-yellow-600"
                         : "cursor-pointer text-white"
                     }`}
                     onClick={() => handleOnClick(number)}
@@ -92,9 +96,9 @@ function Home() {
                     {number}
                   </td>
                   <td
-                    className={`border border-white p-5 ${
+                    className={`border border-secondary p-5 ${
                       isNumberInLotteryNumbers(numbers[index + 1])
-                        ? "bg-yellow-500"
+                        ? "bg-yellow-600"
                         : "cursor-pointer text-white"
                     }`}
                     onClick={() => handleOnClick(numbers[index + 1])}
@@ -102,12 +106,22 @@ function Home() {
                     {numbers[index + 1]}
                   </td>
                   <td
-                    className={`border border-white p-5 ${
+                    className={`border border-secondary p-5 ${
                       isNumberInLotteryNumbers(numbers[index + 2])
-                        ? "bg-yellow-500"
+                        ? "bg-yellow-600"
                         : "cursor-pointer text-white"
                     }`}
                     onClick={() => handleOnClick(numbers[index + 2])}
+                  >
+                    {numbers[index + 2]}
+                  </td>
+                  <td
+                    className={`border border-secondary p-5 ${
+                      isNumberInLotteryNumbers(numbers[index + 3])
+                        ? "bg-yellow-600"
+                        : "cursor-pointer text-white"
+                    }`}
+                    onClick={() => handleOnClick(numbers[index + 3])}
                   >
                     {numbers[index + 2]}
                   </td>
@@ -119,15 +133,13 @@ function Home() {
       </div>
       {openDialog && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
-          <div className="bg-black bg-opacity-50 absolute inset-0"></div>{" "}
-          {/* Fondo oscuro */}
+          <div className="bg-black bg-opacity-50 absolute inset-0"></div>
           <div className="bg-white p-5 rounded-lg shadow-lg w-80 text-black relative z-10">
-            {" "}
-            {/* Contenedor del diálogo */}
             <h2 className="text-xl font-bold mb-4">Ingresar el nombre</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor ingresar el nombre del participante del número:
+                Por favor ingresar el nombre del participante del número{" "}
+                {selectedNumber}:
               </p>
               <input
                 type="text"
@@ -137,10 +149,10 @@ function Home() {
               />
             </div>
             <div className="flex justify-end">
-              <button className="btn btn-error mr-2" onClick={handleClose}>
+              <button className="btn btn-primary mr-2" onClick={handleClose}>
                 Cancelar
               </button>
-              <button className="btn btn-info" onClick={handleConfirm}>
+              <button className="btn btn-warning" onClick={handleConfirm}>
                 Confirmar
               </button>
             </div>

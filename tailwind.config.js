@@ -23,9 +23,9 @@ export default {
     themes: [
       {
         pj: {
-          primary: "#00968F", // p500
+          primary: "#6b191b", // p500
           "primary-content": "#FFFFFF",
-          secondary: "#29725D",
+          secondary: "#FEFCF3",
           accent: "#1fb2a6",
           neutral: "#e5e7eb", // Anteriormente era #2a323c (Ahora es Gray 200)
           "base-100": "#FFFFFF", // white
