@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import useGetNumbers from "../../../../../hooks/useGetNumbers";
 import { lotteryTypes } from "../../../../../domain/types/lotteryTypes";
+import useGetNumbers from "../../../../../hooks/useGetNumbers";
 import useSetNumbers from "../../../../../hooks/useSetNumber";
-import { handleChangeType } from "../../../../../domain/types/formTypes";
 
-function Home() {
+const MissingLoterryNumbers = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [lotteryNumbers, setLotteryNumbers] = useState<lotteryTypes[]>([]);
@@ -19,12 +18,11 @@ function Home() {
     const fetchData = async () => {
       try {
         const numbersLottery = await useGetNumbers();
-        console.log(numbersLottery);
         if (numbersLottery !== undefined) {
           setLotteryNumbers(numbersLottery);
         }
       } catch (error) {
-        console.error("Error al obtener los recordatorios de tareas:", error);
+        console.error("Error al obtener los números de la rifa:", error);
       }
     };
     fetchData();
@@ -34,7 +32,7 @@ function Home() {
     setOpenDialog(false);
   };
 
-  const handleChange: handleChangeType = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
@@ -43,86 +41,63 @@ function Home() {
       (lotteryNumber) => lotteryNumber.lottery_number === number
     );
   };
+
   const handleOnClick = (number: number) => {
     if (!isNumberInLotteryNumbers(number)) {
       setSelectedNumber(number);
       setOpenDialog(true);
     }
   };
+
   const handleConfirm = async () => {
     if (selectedNumber !== null && name) {
       try {
-        const result = async () => {
-          await useSetNumbers({
-            lottery_number: selectedNumber,
-            participant_name: name,
-          });
-          setLotteryNumbers([
-            ...lotteryNumbers,
-            { lottery_number: selectedNumber, participant_name: name },
-          ]);
-          setName("");
-          setOpenDialog(false);
-        };
-        result();
+        await useSetNumbers({
+          lottery_number: selectedNumber,
+          participant_name: name,
+        });
+        setLotteryNumbers([
+          ...lotteryNumbers,
+          { lottery_number: selectedNumber, participant_name: name },
+        ]);
+        setName("");
+        setOpenDialog(false);
       } catch (error) {
         console.error("Error al establecer el número:", error);
       }
     }
   };
+  const availableNumbers = numbers.filter(
+    (number) => !isNumberInLotteryNumbers(number)
+  );
+
   return (
     <div className="flex flex-col items-center justify-center p-5 dialog">
       <div className="p-5 mb-5">
         <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
-          Rifas 401 - 450
+          Números de Rifa Disponibles 401 - 450
         </h1>
       </div>
       <div className="w-[40%] flex items-center justify-center">
         <table className="table-auto w-full text-center">
           <tbody>
-            {numbers.map((number, index) =>
+          {availableNumbers.map((_, index) =>
               index % 4 === 0 ? (
                 <tr className="h-[50px]" key={index}>
-                  <td
-                    className={`border border-secondary p-5 ${
-                      isNumberInLotteryNumbers(number)
-                        ? "bg-yellow-600"
-                        : "cursor-pointer text-white"
-                    }`}
-                    onClick={() => handleOnClick(number)}
-                  >
-                    {number}
-                  </td>
-                  <td
-                    className={`border border-secondary p-5 ${
-                      isNumberInLotteryNumbers(numbers[index + 1])
-                        ? "bg-yellow-600"
-                        : "cursor-pointer text-white"
-                    }`}
-                    onClick={() => handleOnClick(numbers[index + 1])}
-                  >
-                    {numbers[index + 1]}
-                  </td>
-                  <td
-                    className={`border border-secondary p-5 ${
-                      isNumberInLotteryNumbers(numbers[index + 2])
-                        ? "bg-yellow-600"
-                        : "cursor-pointer text-white"
-                    }`}
-                    onClick={() => handleOnClick(numbers[index + 2])}
-                  >
-                    {numbers[index + 2]}
-                  </td>
-                  <td
-                    className={`border border-secondary p-5 ${
-                      isNumberInLotteryNumbers(numbers[index + 3])
-                        ? "bg-yellow-600"
-                        : "cursor-pointer text-white"
-                    }`}
-                    onClick={() => handleOnClick(numbers[index + 3])}
-                  >
-                    {numbers[index + 3]}
-                  </td>
+                  {[0, 1, 2, 3].map((offset) => {
+                    const currentNumber = availableNumbers[index + offset];
+                    return (
+                      currentNumber !== undefined && (
+                        <td
+                          key={index + offset}
+                          className="border border-secondary p-5 cursor-pointer text-white"
+                          onClick={() => handleOnClick(currentNumber)}
+                        >
+                          {currentNumber}
+                        </td>
+                      )
+                    );
+                  })}
                 </tr>
               ) : null
             )}
@@ -159,5 +134,6 @@ function Home() {
       )}
     </div>
   );
-}
-export default Home;
+};
+
+export default MissingLoterryNumbers;

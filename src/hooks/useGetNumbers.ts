@@ -8,9 +8,9 @@ const useGetNumbers = async () => {
     const lottery_numbers: lotteryTypes[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      //const id = doc.id || "No ID";
+      const id = doc.id || "No ID";
       if ("lottery_number" in data) {
-        lottery_numbers.push({...data } as lotteryTypes);
+        lottery_numbers.push({id, ...data } as lotteryTypes);
       }
     });
     console.log(lottery_numbers);

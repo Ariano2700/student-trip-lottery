@@ -60,7 +60,7 @@ const router = createBrowserRouter([
         path: "inicio",
         async lazy() {
           const HomePage = await import(
-            "./presentation/pages/panel/views/home"
+            "./presentation/pages/panel/views/Home"
           );
           return { Component: HomePage.default };
         },
@@ -68,10 +68,19 @@ const router = createBrowserRouter([
       {
         path: "participantes-todos",
         async lazy() {
-          const RegisterPage = await import(
+          const AllParticipantsPage = await import(
             "./presentation/pages/panel/views/AllParticipants"
           );
-          return { Component: RegisterPage.default };
+          return { Component: AllParticipantsPage.default };
+        },
+      },
+      {
+        path: "numeros-faltantes",
+        async lazy() {
+          const MissingLotteryNumbersPage = await import(
+            "./presentation/pages/panel/views/MissingLotteryNumbers"
+          );
+          return { Component: MissingLotteryNumbersPage.default };
         },
       },
       {

@@ -21,8 +21,6 @@ const PanelProtectedRoute = ({ children }: PanelProtectedRouteProps) => {
   useEffect(() => {
     if (!user && !loading) {
       navigate("/iniciar-sesion");
-    } else if (!loading && !simulatedLoading) {
-      navigate("/panel/inicio");
     }
   }, [user, loading, navigate, simulatedLoading]);
 
