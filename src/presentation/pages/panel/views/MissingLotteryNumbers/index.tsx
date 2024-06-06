@@ -73,37 +73,50 @@ const MissingLoterryNumbers = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-5 dialog">
-      <div className="p-5 mb-5">
-        <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
-          Números de Rifa Disponibles 401 - 450
-        </h1>
-      </div>
-      <div className="w-[40%] flex items-center justify-center">
-        <table className="table-auto w-full text-center">
-          <tbody>
-          {availableNumbers.map((_, index) =>
-              index % 4 === 0 ? (
-                <tr className="h-[50px]" key={index}>
-                  {[0, 1, 2, 3].map((offset) => {
-                    const currentNumber = availableNumbers[index + offset];
-                    return (
-                      currentNumber !== undefined && (
-                        <td
-                          key={index + offset}
-                          className="border border-secondary p-5 cursor-pointer text-white"
-                          onClick={() => handleOnClick(currentNumber)}
-                        >
-                          {currentNumber}
-                        </td>
-                      )
-                    );
-                  })}
-                </tr>
-              ) : null
-            )}
-          </tbody>
-        </table>
-      </div>
+      {availableNumbers && availableNumbers.length === 0 ? (
+        <div className="text-center text-2xl text-red-500">
+          No hay números disponibles
+        </div>
+      ) : (
+        <>
+          <div className="p-5 mb-5">
+            <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
+              Números de Rifa Disponibles 401 - 450
+            </h1>
+          </div>
+          <div className="w-[40%] flex flex-col gap-10 items-center justify-center">
+            <div className="">
+              <span className="text-2xl">
+                Quedan {availableNumbers.length} rifas disponibles
+              </span>
+            </div>
+            <table className="table-auto w-full text-center">
+              <tbody>
+                {availableNumbers.map((_, index) =>
+                  index % 4 === 0 ? (
+                    <tr className="h-[50px]" key={index}>
+                      {[0, 1, 2, 3].map((offset) => {
+                        const currentNumber = availableNumbers[index + offset];
+                        return (
+                          currentNumber !== undefined && (
+                            <td
+                              key={index + offset}
+                              className="border border-secondary p-5 cursor-pointer text-white"
+                              onClick={() => handleOnClick(currentNumber)}
+                            >
+                              {currentNumber}
+                            </td>
+                          )
+                        );
+                      })}
+                    </tr>
+                  ) : null
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
       {openDialog && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div className="bg-black bg-opacity-50 absolute inset-0"></div>
