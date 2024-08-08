@@ -16,7 +16,7 @@ const PanelWrapper = () => {
   //"bg-[#1f2328]" : "bg-gray-200"
   return (
     <div
-      className={`drawer bg-[#181A1E] text-white `}
+      className={`drawer bg-[#181A1E] text-white z-10`}
       onClick={closeAllDetails}
     >
       <input id="drawer-panel" type="checkbox" className="drawer-toggle" />
@@ -31,6 +31,7 @@ const PanelWrapper = () => {
 
       {/* Sidebar */}
       <SidebarPanel />
+      <div className="logoStyles absolute inset-0 -z-10 opacity-10"></div>
     </div>
   );
 };

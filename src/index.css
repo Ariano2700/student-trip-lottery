@@ -73,3 +73,10 @@
   transform: rotate(0deg);
   transition: transform 0.3s ease;
 }
+
+.logoStyles {
+  background-image: url(presentation/assets/img/Logo_oficial_de_Universitario.webp);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
