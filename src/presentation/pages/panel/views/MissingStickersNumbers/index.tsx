@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { lotteryTypes } from "../../../../../domain/types/lotteryTypes";
+import { stickersTypes } from "../../../../../domain/types/stickersTypes";
 import useGetNumbers from "../../../../../hooks/useGetNumbers";
 import useSetNumbers from "../../../../../hooks/useSetNumber";
 
 const MissingLoterryNumbers = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [lotteryNumbers, setLotteryNumbers] = useState<lotteryTypes[]>([]);
+  const [stickersNumbers, setStickersNumbers] = useState<stickersTypes[]>([]);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  for (let i = 401; i <= 450; i++) {
+  for (let i = 1; i <= 322; i++) {
     numbers.push(i);
   }
 
@@ -19,7 +18,7 @@ const MissingLoterryNumbers = () => {
       try {
         const numbersLottery = await useGetNumbers();
         if (numbersLottery !== undefined) {
-          setLotteryNumbers(numbersLottery);
+          setStickersNumbers(numbersLottery);
         }
       } catch (error) {
         console.error("Error al obtener los números de la rifa:", error);
@@ -32,13 +31,9 @@ const MissingLoterryNumbers = () => {
     setOpenDialog(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
   const isNumberInLotteryNumbers = (number: number): boolean => {
-    return lotteryNumbers.some(
-      (lotteryNumber) => lotteryNumber.lottery_number === number
+    return stickersNumbers.some(
+      (stickersNumbers) => stickersNumbers.stickers_number === number
     );
   };
 
@@ -50,17 +45,15 @@ const MissingLoterryNumbers = () => {
   };
 
   const handleConfirm = async () => {
-    if (selectedNumber !== null && name) {
+    if (selectedNumber !== null) {
       try {
         await useSetNumbers({
-          lottery_number: selectedNumber,
-          participant_name: name,
+          stickers_number: selectedNumber,
         });
-        setLotteryNumbers([
-          ...lotteryNumbers,
-          { lottery_number: selectedNumber, participant_name: name },
+        setStickersNumbers([
+          ...stickersNumbers,
+          { stickers_number: selectedNumber },
         ]);
-        setName("");
         setOpenDialog(false);
       } catch (error) {
         console.error("Error al establecer el número:", error);
@@ -81,13 +74,13 @@ const MissingLoterryNumbers = () => {
         <>
           <div className="p-5 mb-5">
             <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
-              Números de Rifa Disponibles 401 - 450
+              Álbum de stickers Universitario 2024
             </h1>
           </div>
           <div className="w-[40%] flex flex-col gap-10 items-center justify-center">
             <div className="">
               <span className="text-2xl">
-                Quedan {availableNumbers.length} rifas disponibles
+                Quedan {availableNumbers.length} stickers por encontrar
               </span>
             </div>
             <table className="table-auto w-full text-center">
@@ -121,18 +114,12 @@ const MissingLoterryNumbers = () => {
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div className="bg-black bg-opacity-50 absolute inset-0"></div>
           <div className="bg-white p-5 rounded-lg shadow-lg w-80 text-black relative z-10">
-            <h2 className="text-xl font-bold mb-4">Ingresar el nombre</h2>
+            <h2 className="text-xl font-bold mb-4">Confirmar número</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor ingresar el nombre del participante del número{" "}
+                Por favor confirmar el número de sticker del album{" "}
                 {selectedNumber}:
               </p>
-              <input
-                type="text"
-                value={name}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
             </div>
             <div className="flex justify-end">
               <button className="btn btn-primary mr-2" onClick={handleClose}>

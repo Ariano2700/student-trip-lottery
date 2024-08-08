@@ -66,19 +66,19 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "participantes-todos",
+        path: "stickers-all",
         async lazy() {
           const AllParticipantsPage = await import(
-            "./presentation/pages/panel/views/AllParticipants"
+            "./presentation/pages/panel/views/AllStickers"
           );
           return { Component: AllParticipantsPage.default };
         },
       },
       {
-        path: "numeros-faltantes",
+        path: "stickers-faltantes",
         async lazy() {
           const MissingLotteryNumbersPage = await import(
-            "./presentation/pages/panel/views/MissingLotteryNumbers"
+            "./presentation/pages/panel/views/MissingStickersNumbers"
           );
           return { Component: MissingLotteryNumbersPage.default };
         },

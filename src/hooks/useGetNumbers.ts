@@ -1,20 +1,20 @@
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase/firestore";
-import { lotteryTypes } from "../domain/types/lotteryTypes";
+import { stickersTypes } from "../domain/types/stickersTypes";
 
 const useGetNumbers = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "lotteryNumbers"));
-    const lottery_numbers: lotteryTypes[] = [];
+    const querySnapshot = await getDocs(collection(db, "stickersNumbers"));
+    const stickers_number: stickersTypes[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const id = doc.id || "No ID";
-      if ("lottery_number" in data) {
-        lottery_numbers.push({id, ...data } as lotteryTypes);
+      if ("stickers_number" in data) {
+        stickers_number.push({id, ...data } as stickersTypes);
       }
     });
-    console.log(lottery_numbers);
-    return lottery_numbers;
+    console.log(stickers_number);
+    return stickers_number;
   } catch (error: any) {
     console.error("Error al obtener las tareas", error);
   }

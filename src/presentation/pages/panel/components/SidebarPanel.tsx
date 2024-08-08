@@ -2,7 +2,8 @@
 import SidebarOption from "./SidebarOption";
 import sidebarOptions from "../../../protected-routes/panel-routes";
 //import logorandomXD from "../../../assets/img/randomimg.svg";
-import giornomns from "../../../assets/img/Giornom.jpeg";
+//import giornomns from "../../../assets/img/Giornom.jpeg";
+import logoCentenario from "../../../../../public/logo-centenario.png";
 
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,7 @@ const SidebarPanel = () => {
       <nav className="w-80 min-h-full  bg-[#181A1E] p-4 md:p-5">
         <div className="flex justify-center py-4">
           <Link to="/panel">
-            <img src={giornomns} alt="Logo" width={220} />
+            <img src={logoCentenario} alt="Logo" width={220} />
           </Link>
         </div>
 

@@ -13,7 +13,7 @@ export const useDeleteParticipant = () => {
       if (!idLotteryParticipant) {
         throw new Error("El uid es inválido");
       }
-      const taskDocRef = doc(db, `lotteryNumbers/${idLotteryParticipant}`);
+      const taskDocRef = doc(db, `stickersNumbers/${idLotteryParticipant}`);
       await deleteDoc(taskDocRef);
       setSuccess(true);
     } catch (error) {

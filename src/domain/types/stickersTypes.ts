@@ -1,6 +1,6 @@
-export type lotteryTypes = {
+export type stickersTypes = {
   id?: string;
-  lottery_number: number;
+  stickers_number: number;
   participant_name?: string;
 };
 export type UpdateParticipantType = {

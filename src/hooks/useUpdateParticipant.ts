@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { UpdateParticipantType } from "../domain/types/lotteryTypes";
+import { UpdateParticipantType } from "../domain/types/stickersTypes";
 import db from "../firebase/firestore";
 
 export const useUpdateParticipant = async ({

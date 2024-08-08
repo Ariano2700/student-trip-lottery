@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import useGetNumbers from "../../../../../hooks/useGetNumbers";
-import { lotteryTypes } from "../../../../../domain/types/lotteryTypes";
 import useSetNumbers from "../../../../../hooks/useSetNumber";
-import { handleChangeType } from "../../../../../domain/types/formTypes";
+import { stickersTypes } from "../../../../../domain/types/stickersTypes";
 
 function Home() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [lotteryNumbers, setLotteryNumbers] = useState<lotteryTypes[]>([]);
+  const [stickersNumbers, setStickersNumbers] = useState<stickersTypes[]>([]);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  for (let i = 401; i <= 450; i++) {
+  for (let i = 1; i <= 322; i++) {
     numbers.push(i);
   }
 
@@ -21,7 +19,7 @@ function Home() {
         const numbersLottery = await useGetNumbers();
         console.log(numbersLottery);
         if (numbersLottery !== undefined) {
-          setLotteryNumbers(numbersLottery);
+          setStickersNumbers(numbersLottery);
         }
       } catch (error) {
         console.error("Error al obtener los recordatorios de tareas:", error);
@@ -34,13 +32,9 @@ function Home() {
     setOpenDialog(false);
   };
 
-  const handleChange: handleChangeType = (e) => {
-    setName(e.target.value);
-  };
-
   const isNumberInLotteryNumbers = (number: number): boolean => {
-    return lotteryNumbers.some(
-      (lotteryNumber) => lotteryNumber.lottery_number === number
+    return stickersNumbers.some(
+      (stickersNumbers) => stickersNumbers.stickers_number === number
     );
   };
   const handleOnClick = (number: number) => {
@@ -50,18 +44,16 @@ function Home() {
     }
   };
   const handleConfirm = async () => {
-    if (selectedNumber !== null && name) {
+    if (selectedNumber !== null) {
       try {
         const result = async () => {
           await useSetNumbers({
-            lottery_number: selectedNumber,
-            participant_name: name,
+            stickers_number: selectedNumber,
           });
-          setLotteryNumbers([
-            ...lotteryNumbers,
-            { lottery_number: selectedNumber, participant_name: name },
+          setStickersNumbers([
+            ...stickersNumbers,
+            { stickers_number: selectedNumber },
           ]);
-          setName("");
           setOpenDialog(false);
         };
         result();
@@ -74,7 +66,7 @@ function Home() {
     <div className="flex flex-col items-center justify-center p-5 dialog">
       <div className="p-5 mb-5">
         <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
-          Rifas 401 - 450
+          Álbum de stickers Universitario 2024
         </h1>
       </div>
       <div className="w-[40%] flex items-center justify-center">
@@ -133,18 +125,12 @@ function Home() {
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div className="bg-black bg-opacity-50 absolute inset-0"></div>
           <div className="bg-white p-5 rounded-lg shadow-lg w-80 text-black relative z-10">
-            <h2 className="text-xl font-bold mb-4">Ingresar el nombre</h2>
+            <h2 className="text-xl font-bold mb-4">Confirmar número</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor ingresar el nombre del participante del número{" "}
+                Por favor confirmar el número de sticker del album{" "}
                 {selectedNumber}:
               </p>
-              <input
-                type="text"
-                value={name}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
             </div>
             <div className="flex justify-end">
               <button className="btn btn-primary mr-2" onClick={handleClose}>
