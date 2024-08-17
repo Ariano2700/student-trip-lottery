@@ -9,7 +9,9 @@ const MissingLoterryNumbers = () => {
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  for (let i = 1; i <= 322; i++) {
+  const NumOfStickers = 332;
+
+  for (let i = 1; i <= NumOfStickers; i++) {
     numbers.push(i);
   }
 
@@ -78,10 +80,15 @@ const MissingLoterryNumbers = () => {
             </h1>
           </div>
           <div className="w-[40%] flex flex-col gap-10 items-center justify-center">
-            <div className="">
-              <span className="text-2xl">
-                Quedan {availableNumbers.length} stickers por encontrar
-              </span>
+            <div className="flex gap-4 flex-col justify-center items-center">
+              <p className="text-2xl flex gap-2">
+                Quedan <span className="font-bold">{availableNumbers.length}</span>
+                stickers por encontrar
+              </p>
+              <p className="text-2xl flex gap-2">
+                Tienes <span className="font-bold">{NumOfStickers - availableNumbers.length}</span>
+                stickers
+              </p>
             </div>
             <table className="table-auto w-full text-center">
               <tbody>

@@ -9,7 +9,7 @@ function Home() {
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  for (let i = 1; i <= 322; i++) {
+  for (let i = 1; i <= 332; i++) {
     numbers.push(i);
   }
 
