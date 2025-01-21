@@ -4,32 +4,27 @@ const router = createBrowserRouter([
   {
     path: "/",
     async lazy() {
-      const AuthProtectedRoute = await import(
-        "./presentation/protected-routes/AuthProtectedRoute"
+      const SearchPage = await import(
+        "./presentation/pages/outsite/SearchPage"
       );
-      const OutsideWrapper = await import(
-        "./presentation/pages/outsite/OutsideWrapper"
-      );
-
-      const AuthProtectedRouteEl = AuthProtectedRoute.default;
-
-      return {
-        element: (
-          <AuthProtectedRouteEl>
-            <OutsideWrapper.default />
-          </AuthProtectedRouteEl>
-        ),
-      };
+      return { Component: SearchPage.default };
     },
-    children: [
-      {
-        path: "/iniciar-sesion",
-        async lazy() {
-          const LoginPage = await import("./presentation/pages/outsite/Login");
-          return { Component: LoginPage.default };
-        },
-      },
-    ],
+  },
+  {
+    path: "/promotion",
+    async lazy() {
+      const PromotionPage = await import(
+        "./presentation/pages/outsite/Promotion"
+      );
+      return { Component: PromotionPage.default };
+    },
+  },
+  {
+    path: "iniciar-sesion",
+    async lazy() {
+      const LoginPage = await import("./presentation/pages/outsite/Login");
+      return { Component: LoginPage.default };
+    },
   },
   {
     path: "/panel",
@@ -60,13 +55,13 @@ const router = createBrowserRouter([
         path: "inicio",
         async lazy() {
           const HomePage = await import(
-            "./presentation/pages/panel/views/Home"
+            "./presentation/pages/panel/views/home"
           );
           return { Component: HomePage.default };
         },
       },
       {
-        path: "stickers-all",
+        path: "todos-los-participantes",
         async lazy() {
           const AllParticipantsPage = await import(
             "./presentation/pages/panel/views/AllStickers"
@@ -75,7 +70,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "stickers-faltantes",
+        path: "numeros-faltantes",
         async lazy() {
           const MissingLotteryNumbersPage = await import(
             "./presentation/pages/panel/views/MissingStickersNumbers"
@@ -93,6 +88,15 @@ const router = createBrowserRouter([
         },
       },
     ],
+  },
+  {
+    path: "/ticket/:uid",
+    async lazy() {
+      const TicketPage = await import(
+        "./presentation/pages/outsite/TicketPage"
+      );
+      return { Component: TicketPage.default };
+    },
   },
   {
     path: "*",

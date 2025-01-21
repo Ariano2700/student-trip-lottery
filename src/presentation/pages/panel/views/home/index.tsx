@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
-import useGetNumbers from "../../../../../hooks/useGetNumbers";
-import useSetNumbers from "../../../../../hooks/useSetNumber";
-import { stickersTypes } from "../../../../../domain/types/stickersTypes";
+import { ParticipantDataTypes } from "../../../../../domain/types/participantDataTypes";
+import getNumbers from "../../../../../utils/getNumbers";
+import setNumbers from "../../../../../utils/setNumber";
+import { handleChangeType } from "../../../../../domain/types/formTypes";
 
 function Home() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [stickersNumbers, setStickersNumbers] = useState<stickersTypes[]>([]);
+  const [name, setName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [lotteryNumber, setLotteryNumber] = useState<ParticipantDataTypes[]>(
+    []
+  );
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  for (let i = 1; i <= 332; i++) {
+  for (let i = 1; i <= 300; i++) {
     numbers.push(i);
   }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const numbersLottery = await useGetNumbers();
+        const numbersLottery = await getNumbers();
         console.log(numbersLottery);
         if (numbersLottery !== undefined) {
-          setStickersNumbers(numbersLottery);
+          setLotteryNumber(numbersLottery);
         }
       } catch (error) {
         console.error("Error al obtener los recordatorios de tareas:", error);
@@ -32,9 +37,15 @@ function Home() {
     setOpenDialog(false);
   };
 
+  const handleChange: handleChangeType = (e) => {
+    setName(e.target.value);
+  };
+  const handleChangePhoneNumber: handleChangeType = (e) => {
+    setPhoneNumber(e.target.value);
+  };
   const isNumberInLotteryNumbers = (number: number): boolean => {
-    return stickersNumbers.some(
-      (stickersNumbers) => stickersNumbers.stickers_number === number
+    return lotteryNumber.some(
+      (lotteryNumber) => lotteryNumber.lottery_number === number
     );
   };
   const handleOnClick = (number: number) => {
@@ -47,12 +58,20 @@ function Home() {
     if (selectedNumber !== null) {
       try {
         const result = async () => {
-          await useSetNumbers({
-            stickers_number: selectedNumber,
+          await setNumbers({
+            lottery_number: selectedNumber,
+            participant_name: name,
+            phone_number: phoneNumber,
+            createdAt: new Date().toISOString(),
           });
-          setStickersNumbers([
-            ...stickersNumbers,
-            { stickers_number: selectedNumber },
+          setLotteryNumber([
+            ...lotteryNumber,
+            {
+              lottery_number: selectedNumber,
+              createdAt: new Date().toISOString(),
+              phone_number: phoneNumber,
+              participant_name: name,
+            },
           ]);
           setOpenDialog(false);
         };
@@ -66,7 +85,7 @@ function Home() {
     <div className="flex flex-col items-center justify-center p-5 dialog">
       <div className="p-5 mb-5">
         <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
-          Álbum de stickers Universitario 2024
+          Rifa pro estudios - Fabian Yacila Gomez
         </h1>
       </div>
       <div className="w-[40%] flex items-center justify-center">
@@ -128,9 +147,27 @@ function Home() {
             <h2 className="text-xl font-bold mb-4">Confirmar número</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor confirmar el número de sticker del album{" "}
+                Por favor ingresar el nombre del participante del número{" "}
                 {selectedNumber}:
               </p>
+              <p className="text-xs">Nombre</p>
+              <input
+                type="text"
+                placeholder="Ingrese el nombre del participante"
+                value={name}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+              <p className="text-xs">Número</p>
+              <input
+                type="text"
+                placeholder="Ingrese el número del participante"
+                value={name}
+                onChange={handleChangePhoneNumber}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
             </div>
             <div className="flex justify-end">
               <button className="btn btn-primary mr-2" onClick={handleClose}>

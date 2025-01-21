@@ -36,16 +36,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await createUserWithEmailAndPassword(authFirebase, email, password);
       const uid = userCredential.user.uid;
       return uid;
-    } catch (error: any) {
-      throw new Error(error.message || "Error desconocido");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message || "Error desconocido");
+      }
+      throw new Error("Error desconocido");
     }
   };
   const login: SingUpAndLoginFunction["login"] = async (auth) => {
     const { email, password } = auth;
     try {
       await signInWithEmailAndPassword(authFirebase, email, password);
-    } catch (error: any) {
-      throw new Error(error.message || "Error desconocido");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message || "Error desconocido");
+      }
+      throw new Error("Error desconocido");
     }
   };
   const logOut: LogOutFunction = () => {

@@ -1,25 +1,26 @@
 import { useEffect, useState } from "react";
-import useGetNumbers from "../../../../../hooks/useGetNumbers";
-import {
-  stickersTypes,
-} from "../../../../../domain/types/stickersTypes";
+
 import { RiArrowDownSLine } from "../../../../components/icons/remix-icon/RiArrowDownSLine";
 import ButtonExcel from "../../components/ButtonExcel";
 import { ZondiconsDotsHorizontalTriple } from "../../../../components/icons/zond-icons/ZondiconsDotsHorizontalTriple";
 import { useDeleteParticipant } from "../../../../../hooks/useDeleteParticipant";
 import { ConfirmAlert } from "../../../../components/alerts/ConfirmAlert";
 import Swal from "sweetalert2";
+import { ParticipantDataTypes } from "../../../../../domain/types/participantDataTypes";
+import getNumbers from "../../../../../utils/getNumbers";
 
 const AllParicipants = () => {
-  const [stickersNumbers, setStickersNumbers] = useState<stickersTypes[]>([]);
-
+  const [lotteryNumber, setLotteryNumber] = useState<ParticipantDataTypes[]>(
+    []
+  );
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const numbersLottery = await useGetNumbers();
+        const numbersLottery = await getNumbers();
         console.log(numbersLottery);
         if (numbersLottery !== undefined) {
-          setStickersNumbers(numbersLottery);
+          setLotteryNumber(numbersLottery);
         }
       } catch (error) {
         console.error("Error al obtener los recordatorios de tareas:", error);
@@ -28,30 +29,42 @@ const AllParicipants = () => {
     fetchData();
   }, []);
 
-  const sortedStickersNumbers = [...stickersNumbers].sort((a, b) => {
-    const dataA = a.stickers_number;
-    const dataB = b.stickers_number;
+  const sortedStickersNumbers = [...lotteryNumber].sort((a, b) => {
+    const dataA = a.lottery_number;
+    const dataB = b.lottery_number;
     return dataA - dataB;
   });
 
   const { deleteParticipant } = useDeleteParticipant();
 
-  const handleDelete = async (idLotteryParticipant: stickersTypes) => {
+  const handleCopyCode = async (dataToCopy: string) => {
+    try {
+      await navigator.clipboard.writeText(dataToCopy);
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1500);
+    } catch (error) {
+      console.error("Error al copiar el texto:", error);
+    }
+  };
+
+  const handleDelete = async (idLotteryParticipant: ParticipantDataTypes) => {
     try {
       ConfirmAlert(
         async () => {
           await deleteParticipant(idLotteryParticipant.id || "");
           Swal.fire({
             title: "¡Borrado!",
-            text: "El sticker se ha eliminado.",
+            text: "El numero de rifa y su participante se ha eliminado.",
             icon: "success",
           });
           window.location.reload();
         },
         {
-          confirmButtonText: "Si, eliminar sticker",
-          text: "Se eliminara el sticker seleccionado",
-          title: "¿Deseas eliminar este sticker?",
+          confirmButtonText: "Si, eliminar la rifa",
+          text: "Se eliminara el numero de rifa y su participante seleccionado",
+          title: "¿Deseas eliminar esta rifa?",
         }
       );
     } catch (error) {
@@ -61,7 +74,7 @@ const AllParicipants = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="text-center max-sm:text-2xl text-4xl text-secondary font-bold">
-        <h1>Numero de los sticker encontrados</h1>
+        <h1>Números de rifa ocupados</h1>
       </div>
       <div className="w-[100%] flex justify-end mt-4">
         <ButtonExcel lotteryData={sortedStickersNumbers} />
@@ -72,13 +85,13 @@ const AllParicipants = () => {
             <div key={stickersNumber.id} className="flex items-center gap-5">
               <div className="p-2 flex items-center gap-5">
                 <span className="text-xl bg-secondary text-primary p-3 rounded-md">
-                  N° Sticker
+                  N° RIFA
                 </span>
                 <RiArrowDownSLine className="rotate-[270deg] text-xl" />
               </div>
               <div className="p-2 flex items-center gap-3">
                 <span className="text-xl text-secondary">
-                  {stickersNumber.stickers_number}
+                  {stickersNumber.lottery_number} - {stickersNumber.participant_name}
                 </span>
                 <details className="dropdown dropdown-end">
                   <summary className="flex items-center">
@@ -90,7 +103,17 @@ const AllParicipants = () => {
                         onClick={() => handleDelete(stickersNumber)}
                         className="btn btn-outline btn-primary text-secondary justify-start"
                       >
-                        Borrar sticker
+                        Borrar rifa y participante
+                      </button>
+                    </li>
+                    <li className="">
+                      <button
+                        onClick={() => handleCopyCode(stickersNumber.id || "")}
+                        className="btn btn-outline btn-primary text-secondary justify-center"
+                      >
+                        {!isCopied
+                          ? "Copiar codigo de ticket"
+                          : "¡Codido copiado!"}
                       </button>
                     </li>
                   </ul>

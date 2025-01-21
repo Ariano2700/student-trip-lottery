@@ -31,7 +31,7 @@ const PanelWrapper = () => {
 
       {/* Sidebar */}
       <SidebarPanel />
-      <div className="logoStyles absolute inset-0 -z-10 opacity-10 "></div>
+      <div className="logoStyles absolute inset-0 -z-10 opacity-10"></div>
     </div>
   );
 };

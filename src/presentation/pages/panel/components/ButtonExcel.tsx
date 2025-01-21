@@ -1,10 +1,15 @@
 import { useState } from "react";
 import * as XLSX from "xlsx";
-import { stickersTypes } from "../../../../domain/types/stickersTypes";
 import { VscodeIconsFileTypeExcel } from "../../../components/icons/vscode-icons/VscodeIconsFileTypeExcel";
 import { BxLoaderCircle } from "../../../components/icons/boxIcons/BxLoaderCircle";
+import { ParticipantDataTypes } from "../../../../domain/types/participantDataTypes";
+import formatDate from "../../../../utils/formatDate";
 
-const ButtonExcel = ({ lotteryData }: { lotteryData: stickersTypes[] }) => {
+const ButtonExcel = ({
+  lotteryData,
+}: {
+  lotteryData: ParticipantDataTypes[];
+}) => {
   const [loading, setLoading] = useState(false);
   const getCurrentDateFormatted = () => {
     const date = new Date();
@@ -16,26 +21,32 @@ const ButtonExcel = ({ lotteryData }: { lotteryData: stickersTypes[] }) => {
   };
   const currentDate = getCurrentDateFormatted();
 
-  const tittle = [{ A: "Counteo de stickers" }, {}];
+  const tittle = [{ A: "Conteo de números de rifa" }, {}];
 
   const lengths = [15, 35];
 
   const handleDownload = () => {
     setLoading(true);
 
-    let table = [
+    const table = [
       {
-        A: "Nº DE STICKER",
+        A: "Nº DE TICKET",
+        B: "NOMBRE DEL PARTICIPANTE",
+        C: "NUMERO DE CELULAR",
+        D: "FECHA DE COMPRA",
       },
     ];
 
-    lotteryData.forEach((lotteryData: stickersTypes) => {
+    lotteryData.forEach((lotteryData: ParticipantDataTypes) => {
       table.push({
-        A: lotteryData.stickers_number.toString(),
+        A: lotteryData.lottery_number.toString(),
+        B: lotteryData.participant_name,
+        C: lotteryData.phone_number,
+        D: formatDate(lotteryData.createdAt),
       });
     });
 
-    const dataFinal: any[] = [...tittle, ...table];
+    const dataFinal = [...tittle, ...table];
 
     setTimeout(() => {
       generate_file(dataFinal);
@@ -51,7 +62,7 @@ const ButtonExcel = ({ lotteryData }: { lotteryData: stickersTypes[] }) => {
       XLSX.utils.decode_range("A1:B1"),
       XLSX.utils.decode_range("A2:B2"),
     ];
-    let properties: { width: number }[] = [];
+    const properties: { width: number }[] = [];
 
     lengths.forEach((col) => {
       properties.push({
@@ -61,8 +72,8 @@ const ButtonExcel = ({ lotteryData }: { lotteryData: stickersTypes[] }) => {
 
     sheet["!cols"] = properties;
 
-    XLSX.utils.book_append_sheet(book, sheet, "Números de stickers");
-    XLSX.writeFile(book, `Conteo de stickers | ${currentDate}.xlsx`);
+    XLSX.utils.book_append_sheet(book, sheet, "Números de tickets de rifa");
+    XLSX.writeFile(book, `Conteo de rifa | ${currentDate}.xlsx`);
   };
   return (
     <>

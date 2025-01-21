@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import { stickersTypes } from "../../../../../domain/types/stickersTypes";
-import useGetNumbers from "../../../../../hooks/useGetNumbers";
-import useSetNumbers from "../../../../../hooks/useSetNumber";
+import setNumbers from "../../../../../utils/setNumber";
+import { ParticipantDataTypes } from "../../../../../domain/types/participantDataTypes";
+import getNumbers from "../../../../../utils/getNumbers";
+import { handleChangeType } from "../../../../../domain/types/formTypes";
 
 const MissingLoterryNumbers = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [stickersNumbers, setStickersNumbers] = useState<stickersTypes[]>([]);
+  const [name, setName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [lotteryNumber, setLotteryNumber] = useState<ParticipantDataTypes[]>(
+    []
+  );
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  const NumOfStickers = 332;
+  const NumOfStickers = 300;
 
   for (let i = 1; i <= NumOfStickers; i++) {
     numbers.push(i);
@@ -18,9 +23,9 @@ const MissingLoterryNumbers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const numbersLottery = await useGetNumbers();
+        const numbersLottery = await getNumbers();
         if (numbersLottery !== undefined) {
-          setStickersNumbers(numbersLottery);
+          setLotteryNumber(numbersLottery);
         }
       } catch (error) {
         console.error("Error al obtener los números de la rifa:", error);
@@ -33,9 +38,15 @@ const MissingLoterryNumbers = () => {
     setOpenDialog(false);
   };
 
+  const handleChange: handleChangeType = (e) => {
+    setName(e.target.value);
+  };
+  const handleChangePhoneNumber: handleChangeType = (e) => {
+    setPhoneNumber(e.target.value);
+  };
   const isNumberInLotteryNumbers = (number: number): boolean => {
-    return stickersNumbers.some(
-      (stickersNumbers) => stickersNumbers.stickers_number === number
+    return lotteryNumber.some(
+      (lotteryNumber) => lotteryNumber.lottery_number === number
     );
   };
 
@@ -49,14 +60,25 @@ const MissingLoterryNumbers = () => {
   const handleConfirm = async () => {
     if (selectedNumber !== null) {
       try {
-        await useSetNumbers({
-          stickers_number: selectedNumber,
-        });
-        setStickersNumbers([
-          ...stickersNumbers,
-          { stickers_number: selectedNumber },
-        ]);
-        setOpenDialog(false);
+        const result = async () => {
+          await setNumbers({
+            lottery_number: selectedNumber,
+            participant_name: name,
+            phone_number: phoneNumber,
+            createdAt: new Date().toISOString(),
+          });
+          setLotteryNumber([
+            ...lotteryNumber,
+            {
+              lottery_number: selectedNumber,
+              createdAt: new Date().toISOString(),
+              phone_number: phoneNumber,
+              participant_name: name,
+            },
+          ]);
+          setOpenDialog(false);
+        };
+        result();
       } catch (error) {
         console.error("Error al establecer el número:", error);
       }
@@ -76,18 +98,22 @@ const MissingLoterryNumbers = () => {
         <>
           <div className="p-5 mb-5">
             <h1 className="max-sm:text-2xl text-4xl text-secondary font-bold">
-              Álbum de stickers Universitario 2024
+              Rifa pro estudios - Fabian Yacila Gomez
             </h1>
           </div>
           <div className="w-[40%] flex flex-col gap-10 items-center justify-center">
             <div className="flex gap-4 flex-col justify-center items-center">
               <p className="text-2xl flex gap-2">
-                Quedan <span className="font-bold">{availableNumbers.length}</span>
-                stickers por encontrar
+                Quedan{" "}
+                <span className="font-bold">{availableNumbers.length}</span>
+                rifas disponibles
               </p>
               <p className="text-2xl flex gap-2">
-                Tienes <span className="font-bold">{NumOfStickers - availableNumbers.length}</span>
-                stickers
+                Hay{" "}
+                <span className="font-bold">
+                  {NumOfStickers - availableNumbers.length}
+                </span>
+                tickets ocupados
               </p>
             </div>
             <table className="table-auto w-full text-center">
@@ -124,9 +150,27 @@ const MissingLoterryNumbers = () => {
             <h2 className="text-xl font-bold mb-4">Confirmar número</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor confirmar el número de sticker del album{" "}
+                Por favor ingresar el nombre del participante del número{" "}
                 {selectedNumber}:
               </p>
+              <p className="text-xs">Nombre</p>
+              <input
+                type="text"
+                placeholder="Ingrese el nombre del participante"
+                value={name}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+              <p className="text-xs">Número</p>
+              <input
+                type="text"
+                placeholder="Ingrese el número del participante"
+                value={name}
+                onChange={handleChangePhoneNumber}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+              />
             </div>
             <div className="flex justify-end">
               <button className="btn btn-primary mr-2" onClick={handleClose}>

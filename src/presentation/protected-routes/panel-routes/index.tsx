@@ -15,13 +15,13 @@ const sidebarOptions: SidebarOption[] = [
     Icon: MaterialSymbolsHomeOutlineRounded,
   },
   {
-    path: "stickers-faltantes",
-    label: "Números de stickers faltantes",
-    Icon: MaterialSymbolsLightFormatListNumbered
+    path: "numeros-faltantes",
+    label: "Rifas faltantes",
+    Icon: MaterialSymbolsLightFormatListNumbered,
   },
   {
-    path: "stickers-all",
-    label: "Mostrar todos los stickers",
+    path: "todos-los-participantes",
+    label: "Todas las rifas ocupadas",
     Icon: SolarUsersGroupRoundedLinear,
   },
 ];

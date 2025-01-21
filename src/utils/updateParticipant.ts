@@ -1,8 +1,8 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { UpdateParticipantType } from "../domain/types/stickersTypes";
+import { UpdateParticipantType } from "../domain/types/participantDataTypes";
 import db from "../firebase/firestore";
 
-export const useUpdateParticipant = async ({
+export const updateParticipant = async ({
   id,
   participant_name,
 }: UpdateParticipantType): Promise<boolean> => {
@@ -16,7 +16,7 @@ export const useUpdateParticipant = async ({
     console.log("Participant name updated successfully");
 
     return true;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error updating profile:", error);
     return false;
   }
