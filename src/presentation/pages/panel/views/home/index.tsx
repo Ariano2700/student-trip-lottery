@@ -76,6 +76,8 @@ function Home() {
           setOpenDialog(false);
         };
         result();
+        setPhoneNumber("")
+        setName("")
       } catch (error) {
         console.error("Error al establecer el número:", error);
       }
@@ -163,7 +165,7 @@ function Home() {
               <input
                 type="text"
                 placeholder="Ingrese el número del participante"
-                value={name}
+                value={phoneNumber}
                 onChange={handleChangePhoneNumber}
                 className="w-full p-2 border border-gray-300 rounded"
                 required

@@ -6,15 +6,13 @@ function PromotionPage() {
           Rifa pro estudios - Fabian Yacila Gomez
         </h1>
       </div>
-      <section className="flex flex-col lg:flex-row items-center justify-between">
+      <section className="flex flex-col lg:flex-row items-center justify-between gap-10">
         <div className="flex flex-col items-center gap-5">
-          <div className="">
-            <p className="text-xl text-center">Estudiante finalista de</p>
-            <p className="text-xl text-center">
-              Frank Arnott - Next Generation Explorers Award (NGEA™)
-            </p>
-          </div>
-          <img src="/Fabian.jpg" alt="Fabian imagen" className="rounded-xl" />
+          <img
+            src="/flyer_rifa.png"
+            alt="Fabian imagen"
+            className="rounded-xl lg:w-3/4 max-w-[700px] overflow-auto"
+          />
         </div>
         <div className="max-w-2xl mx-auto p-4">
           {/* Main ticket container */}
@@ -32,7 +30,7 @@ function PromotionPage() {
                 <div className="border border-dashed border-gray-400 p-2 bg-white text-black">
                   <p className="text-lg flex items-center gap-2">
                     Valor de
-                    <span className="font-bold text-xl">S/.10</span>
+                    <span className="font-bold text-xl">S/.5</span>
                   </p>
                 </div>
               </div>

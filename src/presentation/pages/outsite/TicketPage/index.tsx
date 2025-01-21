@@ -47,7 +47,7 @@ const TicketPage = () => {
     if (uid) {
       searchData(uid);
     }
-  }, [uid]);
+  }, [uid, error]);
 
   return (
     <main className="drawer bg-[#181A1E] text-white z-10 flex flex-col items-center justify-center p-5 dialog min-h-screen">
@@ -74,13 +74,11 @@ const TicketPage = () => {
       ) : participantData ? (
         <section className="flex flex-col-reverse lg:flex-row items-center justify-between">
           <div className="flex flex-col items-center gap-5">
-            <div className="">
-              <p className="text-xl text-center">Estudiante finalista de</p>
-              <p className="text-xl text-center">
-                Frank Arnott - Next Generation Explorers Award (NGEA™)
-              </p>
-            </div>
-            <img src="/Fabian.jpg" alt="Fabian imagen" className="rounded-xl" />
+            <img
+              src="/flyer_rifa.png"
+              alt="Fabian imagen"
+              className="w-4/6 max-w-[600px] min-w-[300px] rounded-xl shadow-lg"
+            />
           </div>
           <div className="max-w-2xl mx-auto p-4">
             {/* Main ticket container */}
@@ -98,7 +96,7 @@ const TicketPage = () => {
                   <div className="border border-dashed border-gray-400 p-2 bg-white text-black">
                     <p className="text-lg flex items-center gap-2">
                       Valor de
-                      <span className="font-bold text-xl">S/.10</span>
+                      <span className="font-bold text-xl">S/.5</span>
                     </p>
                   </div>
                 </div>
