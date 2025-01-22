@@ -152,7 +152,7 @@ const MissingLoterryNumbers = () => {
             <h2 className="text-xl font-bold mb-4">Confirmar número</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor ingresar el nombre del participante del número{" "}
+                Por favor ingresar el nombre del participante con el número{" "}
                 {selectedNumber}:
               </p>
               <p className="text-xs">Nombre</p>
@@ -164,10 +164,10 @@ const MissingLoterryNumbers = () => {
                 className="w-full p-2 border border-gray-300 rounded"
                 required
               />
-              <p className="text-xs">Número</p>
+              <p className="text-xs">Telefono</p>
               <input
                 type="text"
-                placeholder="Ingrese el número del participante"
+                placeholder="Ingrese el telefono del participante"
                 value={phoneNumber}
                 onChange={handleChangePhoneNumber}
                 className="w-full p-2 border border-gray-300 rounded"

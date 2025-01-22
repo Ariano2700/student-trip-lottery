@@ -5,6 +5,7 @@ import { ParticipantDataTypes } from "../../../../domain/types/participantDataTy
 import formatDate from "../../../../utils/formatDate";
 import FaSpinner from "../../../components/icons/font-awesome/FaSpinner";
 import { RiArrowDownSLine } from "../../../components/icons/remix-icon/RiArrowDownSLine";
+import { MaterialSymbolsSearch } from "../../../components/icons/material-symbols/MaterialSymbolsSearch";
 
 const TicketPage = () => {
   const { uid } = useParams<{ uid: string }>();
@@ -13,13 +14,21 @@ const TicketPage = () => {
     useState<ParticipantDataTypes | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [uidTicket, setUidTicket] = useState<string>("");
   const formatTicketNumber = (number: number): string => {
     return `N°${number.toString().padStart(5, "0")}`;
   };
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleSearchTicket = () => {
+    if (uidTicket.trim() !== "") {
+      navigate(`/ticket/${uidTicket}`); // Redirige a la ruta dinámica
+    } else {
+      alert("Por favor, ingrese un código o número de ticket válido.");
+    }
   };
 
   useEffect(() => {
@@ -64,6 +73,39 @@ const TicketPage = () => {
         </h1>
       </div>
 
+      {/* Sección 2: Formulario (Blanco) */}
+      <section
+        id="buscar"
+        className="flex flex-col items-center justify-center p-8"
+      >
+        <h2 className="text-3xl font-bold text-white mb-6">
+          ¡Busque su ticket aquí!
+        </h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearchTicket();
+          }}
+          className="w-full max-w-md"
+        >
+          <div className="flex items-center border-b border-gray-300 py-2">
+            <input
+              type="text"
+              placeholder="Código o número de ticket"
+              value={uidTicket}
+              onChange={(e) => setUidTicket(e.target.value)}
+              className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
+              required
+            />
+            <button
+              type="submit"
+              className="flex-shrink-0 bg-red-500 hover:bg-red-700 border-red-500 hover:border-red-700 text-sm border-4 text-white py-1 px-2 rounded"
+            >
+              <MaterialSymbolsSearch />
+            </button>
+          </div>
+        </form>
+      </section>
       {loading ? (
         <div className="flex justify-center items-center h-full">
           <div className="animate-spin">
@@ -124,10 +166,10 @@ const TicketPage = () => {
                       Premio 2: <span className="font-bold">S/.150</span>
                     </p>
                     <p>
-                      Premio 3: <span className="font-bold">S/.100</span>
+                      Premio 3: <span className="font-bold">S/.50</span>
                     </p>
                     <p>
-                      Premio 4: <span className="font-bold">S/.100</span>
+                      Premio 4: <span className="font-bold">S/.50</span>
                     </p>
                   </div>
                 </div>

@@ -7,5 +7,7 @@ export type ParticipantDataTypes = {
 };
 export type UpdateParticipantType = {
   id: string;
+  lottery_number: number;
   participant_name: string;
+  phone_number: string;
 };

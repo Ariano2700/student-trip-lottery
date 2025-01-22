@@ -22,7 +22,6 @@ function Home() {
     const fetchData = async () => {
       try {
         const numbersLottery = await getNumbers();
-        console.log(numbersLottery);
         if (numbersLottery !== undefined) {
           setLotteryNumber(numbersLottery);
         }
@@ -76,8 +75,8 @@ function Home() {
           setOpenDialog(false);
         };
         result();
-        setPhoneNumber("")
-        setName("")
+        setPhoneNumber("");
+        setName("");
       } catch (error) {
         console.error("Error al establecer el número:", error);
       }
@@ -149,8 +148,8 @@ function Home() {
             <h2 className="text-xl font-bold mb-4">Confirmar número</h2>
             <div className="mb-4">
               <p className="mb-2">
-                Por favor ingresar el nombre del participante del número{" "}
-                {selectedNumber}:
+                Por favor ingresar el nombre del participante con el número{" "}
+                <span className="font-bold">{selectedNumber}</span>:
               </p>
               <p className="text-xs">Nombre</p>
               <input
@@ -161,10 +160,10 @@ function Home() {
                 className="w-full p-2 border border-gray-300 rounded"
                 required
               />
-              <p className="text-xs">Número</p>
+              <p className="text-xs">Telefono</p>
               <input
                 type="text"
-                placeholder="Ingrese el número del participante"
+                placeholder="Ingrese el telefono del participante"
                 value={phoneNumber}
                 onChange={handleChangePhoneNumber}
                 className="w-full p-2 border border-gray-300 rounded"

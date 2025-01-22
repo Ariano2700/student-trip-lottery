@@ -5,12 +5,16 @@ import db from "../firebase/firestore";
 export const updateParticipant = async ({
   id,
   participant_name,
+  lottery_number,
+  phone_number,
 }: UpdateParticipantType): Promise<boolean> => {
   try {
-    const dofRef = doc(db, `lotteryNumbers/${id}`);
+    const dofRef = doc(db, `participant_data/${id}`);
     if (participant_name) {
       await updateDoc(dofRef, {
         participant_name,
+        lottery_number,
+        phone_number,
       });
     }
     console.log("Participant name updated successfully");
