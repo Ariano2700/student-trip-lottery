@@ -24,6 +24,11 @@ const sidebarOptions: SidebarOption[] = [
     label: "Todas las rifas ocupadas",
     Icon: SolarUsersGroupRoundedLinear,
   },
+  {
+    path: "seleccion-multiple",
+    label: "Selección multiple de rifas",
+    Icon: MaterialSymbolsLightFormatListNumbered,
+  },
 ];
 
 export default sidebarOptions;

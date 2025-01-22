@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import getParticipantData from "../../../../utils/getParticipantData";
 import { ParticipantDataTypes } from "../../../../domain/types/participantDataTypes";
@@ -6,6 +6,8 @@ import formatDate from "../../../../utils/formatDate";
 import FaSpinner from "../../../components/icons/font-awesome/FaSpinner";
 import { RiArrowDownSLine } from "../../../components/icons/remix-icon/RiArrowDownSLine";
 import { MaterialSymbolsSearch } from "../../../components/icons/material-symbols/MaterialSymbolsSearch";
+import { toPng } from "html-to-image";
+import { saveAs } from "file-saver";
 
 const TicketPage = () => {
   const { uid } = useParams<{ uid: string }>();
@@ -15,6 +17,9 @@ const TicketPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [uidTicket, setUidTicket] = useState<string>("");
+
+  const ticketRef = useRef<HTMLDivElement>(null);
+
   const formatTicketNumber = (number: number): string => {
     return `N°${number.toString().padStart(5, "0")}`;
   };
@@ -31,6 +36,16 @@ const TicketPage = () => {
     }
   };
 
+  const handleDownloadTicket = async () => {
+    if (ticketRef.current) {
+      try {
+        const dataUrl = await toPng(ticketRef.current, { cacheBust: true });
+        saveAs(dataUrl, `ticket-${uid}.png`); // Nombre del archivo descargado
+      } catch (error) {
+        console.error("Error al generar la imagen del ticket:", error);
+      }
+    }
+  };
   useEffect(() => {
     const searchData = async (param: string) => {
       try {
@@ -122,9 +137,12 @@ const TicketPage = () => {
               className="w-4/6 max-w-[600px] min-w-[300px] rounded-xl shadow-lg"
             />
           </div>
-          <div className="max-w-2xl mx-auto p-4">
+          <div               ref={ticketRef}
+ className="max-w-2xl mx-auto p-4">
             {/* Main ticket container */}
-            <div className="border-2 border-gray-300 rounded-lg overflow-hidden">
+            <div
+              className="border-2 border-gray-300 rounded-lg overflow-hidden"
+            >
               {/* Top section */}
               <div className="bg-red-500 p-6 space-y-4">
                 <div className="flex justify-between items-center">
@@ -225,6 +243,12 @@ const TicketPage = () => {
       ) : (
         <p className="text-red-500">Número o código de ticket no encontrado.</p>
       )}
+      <button
+        onClick={handleDownloadTicket}
+        className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Descargar Ticket
+      </button>
     </main>
   );
 };

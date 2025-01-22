@@ -79,6 +79,15 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "seleccion-multiple",
+        async lazy() {
+          const MultipleSelectionPage = await import(
+            "./presentation/pages/panel/views/MultipleSelection"
+          );
+          return { Component: MultipleSelectionPage.default };
+        },
+      },
+      {
         path: "*",
         async lazy() {
           const NotFoudPage = await import(

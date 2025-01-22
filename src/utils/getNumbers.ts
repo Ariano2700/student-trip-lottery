@@ -10,10 +10,9 @@ const getNumbers = async () => {
       const data = doc.data();
       const id = doc.id || "No ID";
       if ("lottery_number" in data) {
-        lottery_number.push({id, ...data } as ParticipantDataTypes);
+        lottery_number.push({ id, ...data } as ParticipantDataTypes);
       }
     });
-    console.log(lottery_number);
     return lottery_number;
   } catch (error) {
     console.error("Error al obtener las tareas", error);
