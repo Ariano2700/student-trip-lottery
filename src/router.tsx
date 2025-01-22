@@ -20,6 +20,15 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "/tickets-disponibles",
+    async lazy() {
+      const AvailableTickets = await import(
+        "./presentation/pages/outsite/AvailableTickets"
+      );
+      return { Component: AvailableTickets.default };
+    },
+  },
+  {
     path: "iniciar-sesion",
     async lazy() {
       const LoginPage = await import("./presentation/pages/outsite/Login");
