@@ -14,7 +14,8 @@ const MissingLoterryNumbers = () => {
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  const NumOfStickers = 300;
+  //CANTIDAD DE RIFAS TOTALES
+  const NumOfStickers = 400;
 
   for (let i = 1; i <= NumOfStickers; i++) {
     numbers.push(i);
@@ -79,8 +80,8 @@ const MissingLoterryNumbers = () => {
           setOpenDialog(false);
         };
         result();
-        setPhoneNumber("")
-        setName("")
+        setPhoneNumber("");
+        setName("");
       } catch (error) {
         console.error("Error al establecer el número:", error);
       }

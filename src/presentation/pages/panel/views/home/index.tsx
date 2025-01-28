@@ -14,7 +14,8 @@ function Home() {
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const numbers: number[] = [];
 
-  for (let i = 1; i <= 300; i++) {
+  //CANTIDAD DE RIFAS TOTALES
+  for (let i = 1; i <= 400; i++) {
     numbers.push(i);
   }
 
