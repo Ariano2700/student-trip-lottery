@@ -18,7 +18,7 @@ const MultipleSelection = () => {
   );
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   //CANTIDAD DE RIFAS TOTALES
-  const numbers: number[] = Array.from({ length: 400 }, (_, i) => i + 1);
+  const numbers: number[] = Array.from({ length: 500 }, (_, i) => i + 1);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -8,7 +8,7 @@ function Home() {
   );
   const numbers: number[] = [];
 
-  for (let i = 1; i <= 300; i++) {
+  for (let i = 1; i <= 500; i++) {
     numbers.push(i);
   }
 
@@ -47,7 +47,7 @@ function Home() {
           rifas disponibles
         </p>
         <p className="text-2xl flex gap-2">
-          Hay <span className="font-bold">{300 - availableNumbers.length}</span>
+          Hay <span className="font-bold">{500 - availableNumbers.length}</span>
           tickets ocupados
         </p>
         <p className="text-2xl flex gap-2 font-semibold">

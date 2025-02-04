@@ -15,7 +15,7 @@ const MissingLoterryNumbers = () => {
   const numbers: number[] = [];
 
   //CANTIDAD DE RIFAS TOTALES
-  const NumOfStickers = 400;
+  const NumOfStickers = 500;
 
   for (let i = 1; i <= NumOfStickers; i++) {
     numbers.push(i);

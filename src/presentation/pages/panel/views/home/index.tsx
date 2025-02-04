@@ -15,7 +15,7 @@ function Home() {
   const numbers: number[] = [];
 
   //CANTIDAD DE RIFAS TOTALES
-  for (let i = 1; i <= 400; i++) {
+  for (let i = 1; i <= 500; i++) {
     numbers.push(i);
   }
 
